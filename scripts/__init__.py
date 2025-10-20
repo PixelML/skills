@@ -33,7 +33,7 @@ def ensure_venv_and_run():
 
     # We need to set up or switch to our venv
     if not venv_dir.exists():
-        print("🔧 First-time setup detected...")
+        print("[*] First-time setup detected...")
         print("   Creating isolated environment for NotebookLM skill...")
         print("   This ensures clean dependency management...")
 
@@ -68,11 +68,11 @@ def ensure_venv_and_run():
                 capture_output=True
             )
 
-        print("✅ Environment ready! All dependencies isolated in .venv/")
+        print("[+] Environment ready! All dependencies isolated in .venv/")
 
     # If we're here and not in the venv, we should recommend using the venv
     if not in_venv:
-        print("\n⚠️  Running outside virtual environment")
+        print("\n[!]  Running outside virtual environment")
         print("   Recommended: Use scripts/run.py to ensure clean execution")
         print("   Or activate: source .venv/bin/activate")
 

@@ -116,11 +116,11 @@ class BrowserSession:
 
     def _initialize(self):
         """Initialize the browser session and navigate to NotebookLM"""
-        print(f"🚀 Creating session {self.id}...")
+        print(f"[*] Creating session {self.id}...")
 
         # Create new page (tab) in context
         self.page = self.context.new_page()
-        print(f"  🌐 Navigating to NotebookLM...")
+        print(f"  [*] Navigating to NotebookLM...")
 
         try:
             # Navigate to notebook
@@ -137,10 +137,10 @@ class BrowserSession:
             self.stealth.random_mouse_movement(self.page)
             self.stealth.random_delay(300, 600)
 
-            print(f"✅ Session {self.id} ready!")
+            print(f"[+] Session {self.id} ready!")
 
         except Exception as e:
-            print(f"❌ Failed to initialize session: {e}")
+            print(f"[!] Failed to initialize session: {e}")
             if self.page:
                 self.page.close()
             raise
@@ -168,7 +168,7 @@ class BrowserSession:
             self.last_activity = time.time()
             self.message_count += 1
 
-            print(f"💬 [{self.id}] Asking: {question}")
+            print(f"? [{self.id}] Asking: {question}")
 
             # Snapshot current answer to detect new response
             previous_answer = self._snapshot_latest_response()
@@ -192,7 +192,7 @@ class BrowserSession:
             self.page.keyboard.press("Enter")
 
             # Wait for response
-            print("  ⏳ Waiting for response...")
+            print("  [*] Waiting for response...")
             self.stealth.random_delay(1500, 3000)
 
             # Get new answer
@@ -201,7 +201,7 @@ class BrowserSession:
             if not answer:
                 raise Exception("Empty response from NotebookLM")
 
-            print(f"  ✅ Got response ({len(answer)} chars)")
+            print(f"  [+] Got response ({len(answer)} chars)")
 
             return {
                 "status": "success",
@@ -212,7 +212,7 @@ class BrowserSession:
             }
 
         except Exception as e:
-            print(f"  ❌ Error: {e}")
+            print(f"  [!] Error: {e}")
             return {
                 "status": "error",
                 "question": question,
@@ -262,7 +262,7 @@ class BrowserSession:
 
     def reset(self):
         """Reset the chat by reloading the page"""
-        print(f"🔄 Resetting session {self.id}...")
+        print(f"[*] Resetting session {self.id}...")
 
         self.page.reload(wait_until="domcontentloaded")
         self._wait_for_ready()
@@ -271,20 +271,20 @@ class BrowserSession:
         self.message_count = 0
         self.last_activity = time.time()
 
-        print(f"✅ Session reset (cleared {previous_count} messages)")
+        print(f"[+] Session reset (cleared {previous_count} messages)")
         return previous_count
 
     def close(self):
         """Close this session and clean up resources"""
-        print(f"🛑 Closing session {self.id}...")
+        print(f"? Closing session {self.id}...")
 
         if self.page:
             try:
                 self.page.close()
             except Exception as e:
-                print(f"  ⚠️ Error closing page: {e}")
+                print(f"  [!] Error closing page: {e}")
 
-        print(f"✅ Session {self.id} closed")
+        print(f"[+] Session {self.id} closed")
 
     def get_info(self) -> Dict[str, Any]:
         """Get information about this session"""

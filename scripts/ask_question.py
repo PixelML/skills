@@ -65,11 +65,11 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True) -> s
     auth = AuthManager()
 
     if not auth.is_authenticated():
-        print("⚠️ Not authenticated. Run: python auth_manager.py setup")
+        print("[!] Not authenticated. Run: python auth_manager.py setup")
         return None
 
-    print(f"💬 Asking: {question}")
-    print(f"📚 Notebook: {notebook_url}")
+    print(f"[*] Asking: {question}")
+    print(f"[*] Notebook: {notebook_url}")
 
     playwright = None
     context = None
@@ -104,30 +104,30 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True) -> s
         # The browser profile handles persistent cookies, but session cookies need manual injection
         if auth.state_file.exists():
             try:
-                print("  🔧 Loading authentication state...")
+                print("  [*] Loading authentication state...")
                 with open(auth.state_file, 'r') as f:
                     state = json.load(f)
                     if 'cookies' in state and len(state['cookies']) > 0:
                         # Add cookies to the already-launched context
                         # This ensures session cookies (expires=-1) are loaded correctly
                         context.add_cookies(state['cookies'])
-                        print(f"  ✅ Injected {len(state['cookies'])} cookies from state.json")
+                        print(f"  [+] Injected {len(state['cookies'])} cookies from state.json")
                     else:
-                        print("  ⚠️  No cookies found in state.json")
+                        print("  [!] No cookies found in state.json")
             except Exception as e:
-                print(f"  ⚠️  Could not load state.json: {e}")
-                print("  💡 Continuing with browser profile cookies only...")
+                print(f"  [!] Could not load state.json: {e}")
+                print("  [*] Continuing with browser profile cookies only...")
 
         # Navigate to notebook
         page = context.new_page()
-        print("  🌐 Opening notebook...")
+        print("  [*] Opening notebook...")
         page.goto(notebook_url, wait_until="domcontentloaded")
 
         # Wait for NotebookLM
         page.wait_for_url(re.compile(r"^https://notebooklm\.google\.com/"), timeout=10000)
 
         # Wait for query input (MCP approach)
-        print("  ⏳ Waiting for query input...")
+        print("  [*] Waiting for query input...")
         query_element = None
 
         for selector in QUERY_INPUT_SELECTORS:
@@ -138,17 +138,17 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True) -> s
                     state="visible"  # Only check visibility, not disabled!
                 )
                 if query_element:
-                    print(f"  ✓ Found input: {selector}")
+                    print(f"  [+] Found input: {selector}")
                     break
             except:
                 continue
 
         if not query_element:
-            print("  ❌ Could not find query input")
+            print("  [!] Could not find query input")
             return None
 
         # Type question (human-like, fast)
-        print("  ⏳ Typing question...")
+        print("  [*] Typing question...")
         # Click the input first
         page.click(QUERY_INPUT_SELECTORS[0])
         time.sleep(0.5)
@@ -156,14 +156,14 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True) -> s
         page.type(QUERY_INPUT_SELECTORS[0], question, delay=50)
 
         # Submit
-        print("  📤 Submitting...")
+        print("  [*] Submitting...")
         page.keyboard.press("Enter")
 
         # Small pause
         time.sleep(1)
 
         # Wait for response (MCP approach: poll for stable text)
-        print("  ⏳ Waiting for answer...")
+        print("  [*] Waiting for answer...")
 
         answer = None
         stable_count = 0
@@ -198,15 +198,15 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True) -> s
             time.sleep(1)
 
         if not answer:
-            print("  ❌ Timeout waiting for answer")
+            print("  [!] Timeout waiting for answer")
             return None
 
-        print("  ✅ Got answer!")
+        print("  [+] Got answer!")
         # Add follow-up reminder to encourage Claude to ask more questions
         return answer + FOLLOW_UP_REMINDER
 
     except Exception as e:
-        print(f"  ❌ Error: {e}")
+        print(f"  [!] Error: {e}")
         import traceback
         traceback.print_exc()
         return None
@@ -245,7 +245,7 @@ def main():
         if notebook:
             notebook_url = notebook['url']
         else:
-            print(f"❌ Notebook '{args.notebook_id}' not found")
+            print(f"[!] Notebook '{args.notebook_id}' not found")
             return 1
 
     if not notebook_url:
@@ -254,19 +254,19 @@ def main():
         active = library.get_active_notebook()
         if active:
             notebook_url = active['url']
-            print(f"📚 Using active notebook: {active['name']}")
+            print(f"[*] Using active notebook: {active['name']}")
         else:
             # Show available notebooks
             notebooks = library.list_notebooks()
             if notebooks:
-                print("\n📚 Available notebooks:")
+                print("\n[*] Available notebooks:")
                 for nb in notebooks:
                     mark = " [ACTIVE]" if nb.get('id') == library.active_notebook_id else ""
                     print(f"  {nb['id']}: {nb['name']}{mark}")
                 print("\nSpecify with --notebook-id or set active:")
                 print("python scripts/run.py notebook_manager.py activate --id ID")
             else:
-                print("❌ No notebooks in library. Add one first:")
+                print("[!] No notebooks in library. Add one first:")
                 print("python scripts/run.py notebook_manager.py add --url URL --name NAME --description DESC --topics TOPICS")
             return 1
 
@@ -282,12 +282,18 @@ def main():
         print(f"Question: {args.question}")
         print("=" * 60)
         print()
-        print(answer)
+        # Handle Unicode characters that can't be encoded in cp1252
+        try:
+            print(answer)
+        except UnicodeEncodeError:
+            # Replace problematic characters with ASCII equivalents
+            safe_answer = answer.encode('ascii', 'replace').decode('ascii')
+            print(safe_answer)
         print()
         print("=" * 60)
         return 0
     else:
-        print("\n❌ Failed to get answer")
+        print("\n[!] Failed to get answer")
         return 1
 
 
