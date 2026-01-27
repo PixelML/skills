@@ -45,3 +45,6 @@ logs/
 *.temp
 .*.swp
 .*.swo
+
+# VSCode
+.vscode/
