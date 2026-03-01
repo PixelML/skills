@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: data-pipeline
+version: 1.0.0
+description: End-to-end data pipeline — cleans data quality issues, then extracts actionable insights from the cleaned data
+
+steps:
+  - id: clean
+    skill: data-clean
+    inputs:
+      data_sample: "{{data_sample}}"
+
+  - id: insights
+    skill: insight-extract
+    inputs:
+      data: "Based on this data cleaning plan, analyze the data and extract insights. Assume the cleaning has been applied:\n\n{{clean.cleaning_plan}}"
+
+outputs:
+  cleaning_plan: "{{clean.cleaning_plan}}"
+  insights: "{{insights.insights}}"

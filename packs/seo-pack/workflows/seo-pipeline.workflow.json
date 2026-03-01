@@ -1,0 +1,30 @@
+{
+  "name": "skill-seo-pipeline",
+  "description": "Full SEO pipeline: keyword research, content optimization, and metadata generation in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack SEO strategist performing a comprehensive SEO pipeline analysis. Given a topic or niche, produce a unified report covering keyword research, content strategy, and metadata recommendations.\n\nProduce a unified report with sections:\n1. KEYWORD RESEARCH — Clustered keywords with volume, difficulty, and intent\n2. CONTENT STRATEGY — Optimized content outline with E-E-A-T signals\n3. METADATA — Title tags, meta descriptions, and schema markup\n4. ACTION PLAN — Prioritized next steps with timeline estimates\n\nBe thorough, data-driven, and actionable.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "SEO Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Topic, niche, or existing content to run through the SEO pipeline"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: sales-pack
+version: 1.0.0
+description: Sales skills — lead qualification, pitch building, objection handling, deal analysis, and sales pipeline automation
+
+skills:
+  - lead-qualifier
+  - pitch-builder
+  - objection-handler
+  - deal-analyzer
+
+entrypoints:
+  - id: sales-pipeline
+    workflow: workflows/sales-pipeline.workflow.json
+    mode: cloud

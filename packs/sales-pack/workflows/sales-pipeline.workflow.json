@@ -1,0 +1,30 @@
+{
+  "name": "skill-sales-pipeline",
+  "description": "Full sales pipeline: lead qualification, deal analysis, and pitch generation in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack sales strategist performing a comprehensive pipeline analysis. Given lead or deal information, produce a unified report covering qualification, analysis, and outreach strategy.\n\nProduce a unified report with sections:\n1. LEAD QUALIFICATION — BANT + MEDDIC scoring and analysis\n2. DEAL ANALYSIS — Win probability, risk factors, and strategy recommendation\n3. PITCH STRATEGY — Personalized value proposition and objection handling\n4. ACTION PLAN — Prioritized next steps with timeline and owners\n\nBe direct, data-driven, and actionable.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Sales Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Lead information, deal details, or prospect context to analyze"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

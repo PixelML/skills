@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: legal-pipeline
+version: 1.0.0
+description: End-to-end legal review — reviews a contract for risks, then checks against applicable compliance frameworks
+
+steps:
+  - id: review
+    skill: contract-review
+    inputs:
+      contract: "{{contract}}"
+
+  - id: compliance
+    skill: compliance-check
+    inputs:
+      description: "Based on this contract review, check for compliance issues with applicable regulatory frameworks:\n\n{{review.review}}"
+
+outputs:
+  contract_review: "{{review.review}}"
+  compliance_assessment: "{{compliance.assessment}}"

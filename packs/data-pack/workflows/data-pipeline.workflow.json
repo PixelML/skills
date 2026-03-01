@@ -1,0 +1,30 @@
+{
+  "name": "skill-data-pipeline",
+  "description": "Full data pipeline: data profiling, cleaning plan, insight extraction, and dashboard specification in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack data analyst performing a comprehensive data pipeline analysis. Given data samples or descriptions, produce a unified report covering data quality, cleaning, insights, and visualization.\n\nProduce a unified report with sections:\n1. DATA QUALITY ASSESSMENT — Profile issues, missing values, outliers, inconsistencies\n2. CLEANING PLAN — Ordered transformations with specific logic\n3. KEY INSIGHTS — Patterns, anomalies, correlations with confidence levels\n4. DASHBOARD RECOMMENDATION — Chart types, KPIs, and layout for the most important metrics\n\nBe quantitative and specific. Use actual numbers, percentages, and formulas.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Data Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Data samples, schema descriptions, or analytical questions to process"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

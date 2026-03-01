@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: legal-pack
+version: 1.0.0
+description: Legal & compliance skills — contract review, compliance checking, policy drafting, risk assessment, and legal pipeline automation
+
+skills:
+  - contract-review
+  - compliance-check
+  - policy-draft
+  - risk-assess
+
+entrypoints:
+  - id: legal-pipeline
+    workflow: workflows/legal-pipeline.workflow.json
+    mode: cloud

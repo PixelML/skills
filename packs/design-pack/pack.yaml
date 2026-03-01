@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: design-pack
+version: 1.0.0
+description: UI/UX design skills — UI reviews, design system generation, user flow mapping, UX copy, and design-to-code pipelines
+
+skills:
+  - ui-review
+  - design-system
+  - user-flow
+  - copy-ux
+
+entrypoints:
+  - id: design-pipeline
+    workflow: workflows/design-pipeline.workflow.json
+    mode: cloud

@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: seo-strategy
+version: 1.0.0
+description: End-to-end SEO strategy — researches keywords for a topic, then optimizes content around the discovered keywords
+
+steps:
+  - id: research
+    skill: keyword-research
+    inputs:
+      topic: "{{topic}}"
+
+  - id: optimize
+    skill: content-optimize
+    inputs:
+      content: "Using the following keyword research, create and optimize content for the top-priority keywords:\n\n{{research.keywords}}"
+
+outputs:
+  keywords: "{{research.keywords}}"
+  optimized_content: "{{optimize.optimized}}"

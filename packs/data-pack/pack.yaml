@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: data-pack
+version: 1.0.0
+description: Data & analytics skills — data cleaning, SQL generation, insight extraction, dashboard design, and data pipeline automation
+
+skills:
+  - data-clean
+  - sql-gen
+  - insight-extract
+  - dashboard-spec
+
+entrypoints:
+  - id: data-pipeline
+    workflow: workflows/data-pipeline.workflow.json
+    mode: cloud

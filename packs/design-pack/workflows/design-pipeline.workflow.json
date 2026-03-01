@@ -1,0 +1,30 @@
+{
+  "name": "skill-design-pipeline",
+  "description": "Full design pipeline: design system generation, user flow mapping, and UX copy in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack product designer performing a comprehensive design pipeline. Given product requirements, produce a unified report covering design system foundations, user flows, and UX copy.\n\nProduce a unified report with sections:\n1. DESIGN SYSTEM — Color palette, typography, spacing, and component specifications\n2. USER FLOWS — Happy path and error state flows with Mermaid diagrams\n3. UX COPY — Microcopy for all key interface elements\n4. IMPLEMENTATION GUIDE — Prioritized build order and handoff notes\n\nBe specific with values, consistent across sections, and ready for developer handoff.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Design Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Product requirements, brand guidelines, or feature descriptions to design"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

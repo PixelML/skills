@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: design-to-code
+version: 1.0.0
+description: End-to-end design pipeline — generates a design system from requirements, then creates matching UX copy
+
+steps:
+  - id: system
+    skill: design-system
+    inputs:
+      requirements: "{{requirements}}"
+
+  - id: copy
+    skill: copy-ux
+    inputs:
+      context: "Using the following design system as context, create UX microcopy that matches the design language and voice:\n\n{{system.system}}"
+
+outputs:
+  design_system: "{{system.system}}"
+  ux_copy: "{{copy.copy}}"

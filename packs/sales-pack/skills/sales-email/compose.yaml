@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: sales-email
+version: 1.0.0
+description: End-to-end sales outreach — qualifies a lead, then builds a personalized pitch based on qualification results
+
+steps:
+  - id: qualify
+    skill: lead-qualifier
+    inputs:
+      lead_info: "{{lead_info}}"
+
+  - id: pitch
+    skill: pitch-builder
+    inputs:
+      context: "Based on this lead qualification, build a personalized sales pitch:\n\n{{qualify.qualification}}"
+
+outputs:
+  qualification: "{{qualify.qualification}}"
+  pitch: "{{pitch.pitch}}"

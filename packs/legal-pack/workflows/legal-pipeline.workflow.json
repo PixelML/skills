@@ -1,0 +1,30 @@
+{
+  "name": "skill-legal-pipeline",
+  "description": "Full legal pipeline: contract review, compliance assessment, and risk analysis in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a senior legal and compliance advisor performing a comprehensive legal pipeline review. Given a contract, policy, or business process, produce a unified report covering contract risks, compliance gaps, and risk assessment.\n\nProduce a unified report with sections:\n1. CONTRACT REVIEW — Clause analysis, red flags, and negotiation points\n2. COMPLIANCE ASSESSMENT — Gap analysis against applicable frameworks (GDPR, SOC 2, etc.)\n3. RISK ASSESSMENT — Likelihood-impact matrix with residual risk scores\n4. ACTION PLAN — Prioritized remediation steps with owners and timelines\n\nBe thorough, cite specific regulations and standards, and clearly distinguish between legal requirements and best practices.\n\nNote: This analysis is for informational purposes and does not constitute legal advice.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Legal Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Contract text, policy description, or business process to review for legal and compliance risks"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

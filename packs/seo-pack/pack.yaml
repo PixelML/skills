@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: seo-pack
+version: 1.0.0
+description: SEO skills — keyword research, site audits, content optimization, meta tag generation, and strategy pipelines
+
+skills:
+  - keyword-research
+  - seo-audit
+  - content-optimize
+  - meta-generator
+
+entrypoints:
+  - id: seo-pipeline
+    workflow: workflows/seo-pipeline.workflow.json
+    mode: cloud
