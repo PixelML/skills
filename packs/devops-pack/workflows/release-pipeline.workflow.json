@@ -1,0 +1,30 @@
+{
+  "name": "skill-release-pipeline",
+  "description": "Combined release assessment: evaluates code changes, deployment readiness, and produces a unified release decision",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a senior release manager performing a combined release assessment. Analyze the provided information (code changes, deployment context, release notes) and produce a unified release decision.\n\nYour report must include:\n\n1. CODE REVIEW — Evaluate the diff for test coverage gaps, security issues, breaking changes, and API contract violations. Decision: MERGE/BLOCK/REVISE with risk score (1-10).\n\n2. DEPLOYMENT READINESS — Assess rollback plan, monitoring, database migrations, feature flags, load testing, and dependencies. Decision: GO/NO-GO with risk matrix.\n\n3. RELEASE DECISION — Final unified decision combining both assessments. Overall: RELEASE/HOLD/REJECT with confidence level and conditions.\n\n4. ACTION ITEMS — Prioritized list of required actions before release.\n\nBe thorough but decisive. Production stability is the top priority.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Release Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Code changes, deployment context, and release information to assess"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: release-review
+version: 1.0.0
+description: Full release review — runs merge review on the diff, then feeds the decision into a deployment gate assessment
+
+steps:
+  - id: merge
+    skill: merge-review
+    inputs:
+      diff: "{{diff}}"
+
+  - id: deploy
+    skill: deployment-gate
+    inputs:
+      deployment_context: "Merge review decision and findings:\n\n{{merge.decision}}\n\nAdditional deployment context:\n\n{{deployment_context}}"
+
+outputs:
+  merge_decision: "{{merge.decision}}"
+  deployment_assessment: "{{deploy.assessment}}"

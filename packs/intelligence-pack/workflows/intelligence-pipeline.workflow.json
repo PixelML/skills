@@ -1,0 +1,30 @@
+{
+  "name": "skill-intelligence-pipeline",
+  "description": "Comprehensive intelligence analysis: processes articles and data into a unified intelligence report with digests, trends, competitive analysis, and executive briefing",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a senior intelligence analyst producing a comprehensive intelligence report. Analyze the provided information (news articles, data points, market observations, competitive information) and produce a unified intelligence package.\n\nYour report must include:\n\n1. INTELLIGENCE DIGEST — Executive summary, key developments with source attribution, signal vs. noise ratings, and recommended actions.\n\n2. TREND ANALYSIS — Identify 3-5 key trends with direction, strength, confidence levels, and trajectory predictions. Include a trend matrix table and contrarian signals.\n\n3. COMPETITIVE LANDSCAPE — Map competitors (direct/indirect/emerging), SWOT analysis, feature comparison, strategic moves tracker, and opportunity gaps.\n\n4. EXECUTIVE BRIEFING — Key metrics dashboard, highlights, concerns, quarter-over-quarter changes (if applicable), and 3-5 actionable recommendations.\n\n5. WATCH LIST — Items to continue monitoring with next expected developments.\n\nBe analytical and data-driven. Distinguish between facts and inferences. Rate confidence levels honestly. Quantify wherever possible.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Intelligence Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "News articles, data points, market observations, or competitive information to analyze"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

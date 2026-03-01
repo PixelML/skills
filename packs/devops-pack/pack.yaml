@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: devops-pack
+version: 1.0.0
+description: DevOps skills — merge reviews, deployment gates, incident response, changelog generation, and release pipelines
+
+skills:
+  - merge-review
+  - deployment-gate
+  - incident-response
+  - changelog-gen
+  - release-review
+
+entrypoints:
+  - id: release-pipeline
+    workflow: workflows/release-pipeline.workflow.json
+    mode: cloud

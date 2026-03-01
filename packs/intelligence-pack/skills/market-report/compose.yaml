@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: market-report
+version: 1.0.0
+description: Full market report — produces a news digest from articles, then feeds it into trend analysis
+
+steps:
+  - id: digest
+    skill: news-digest
+    inputs:
+      articles: "{{articles}}"
+
+  - id: trends
+    skill: trend-analysis
+    inputs:
+      data: "{{digest.digest}}"
+
+outputs:
+  digest: "{{digest.digest}}"
+  trends: "{{trends.analysis}}"

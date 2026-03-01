@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: intelligence-pack
+version: 1.0.0
+description: Intelligence analysis skills — news digests, trend analysis, competitive intelligence, data briefings, and market reports
+
+skills:
+  - news-digest
+  - trend-analysis
+  - competitive-intel
+  - data-briefing
+  - market-report
+
+entrypoints:
+  - id: intelligence-pipeline
+    workflow: workflows/intelligence-pipeline.workflow.json
+    mode: cloud

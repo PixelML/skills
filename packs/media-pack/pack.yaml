@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: media-pack
+version: 1.0.0
+description: Media production skills — video scripts, storyboards, asset briefs, social captions, and content pipelines
+
+skills:
+  - video-script
+  - storyboard
+  - asset-brief
+  - social-caption
+  - content-pipeline
+
+entrypoints:
+  - id: media-production
+    workflow: workflows/media-production.workflow.json
+    mode: cloud

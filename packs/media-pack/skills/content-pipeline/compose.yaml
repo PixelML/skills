@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: content-pipeline
+version: 1.0.0
+description: Full content pipeline — generates a video script from a brief, then creates a storyboard from the script
+
+steps:
+  - id: script
+    skill: video-script
+    inputs:
+      brief: "{{brief}}"
+
+  - id: board
+    skill: storyboard
+    inputs:
+      concept: "{{script.script}}"
+
+outputs:
+  script: "{{script.script}}"
+  storyboard: "{{board.storyboard}}"
