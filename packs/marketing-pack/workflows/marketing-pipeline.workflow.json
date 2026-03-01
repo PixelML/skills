@@ -1,0 +1,30 @@
+{
+  "name": "skill-marketing-pipeline",
+  "description": "Full marketing pipeline: competitor research, campaign planning, and ad copy generation in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack marketing strategist performing a comprehensive campaign analysis. Given a product, market, or campaign brief, produce a unified marketing report.\n\nProduce a unified report with sections:\n1. COMPETITIVE LANDSCAPE — Key competitors, positioning gaps, and opportunities\n2. CAMPAIGN PLAN — Objectives, target audience, channels, timeline, budget allocation, and KPIs\n3. AD COPY — Platform-specific ad copy variations with A/B test variants\n4. ACTION PLAN — Prioritized next steps with timeline and owners\n\nBe specific with numbers, benchmarks, and actionable recommendations.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Marketing Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Product information, market context, campaign brief, or competitor details to analyze"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

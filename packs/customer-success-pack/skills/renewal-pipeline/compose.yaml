@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: renewal-pipeline
+version: 1.0.0
+description: End-to-end renewal prep — assesses customer health score, then generates a QBR preparation package based on the health assessment
+
+steps:
+  - id: health
+    skill: health-score
+    inputs:
+      customer_data: "{{customer_data}}"
+
+  - id: qbr
+    skill: qbr-prep
+    inputs:
+      account_data: "Based on this customer health assessment, prepare a QBR package:\n\n{{health.health_assessment}}"
+
+outputs:
+  health_assessment: "{{health.health_assessment}}"
+  qbr_package: "{{qbr.qbr_package}}"

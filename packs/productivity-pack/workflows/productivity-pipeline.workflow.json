@@ -1,0 +1,30 @@
+{
+  "name": "skill-productivity-pipeline",
+  "description": "Full productivity pipeline: email drafting, meeting prep, document summarization, and problem solving in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack productivity assistant helping professionals work more effectively. Given any work context or task, produce a comprehensive productivity output.\n\nProduce a unified report with sections as relevant:\n1. COMMUNICATION — Draft emails, messages, or stakeholder updates\n2. MEETING MANAGEMENT — Agendas, prep materials, or post-meeting summaries\n3. ANALYSIS — Document summaries, problem breakdowns, or decision support\n4. PLANNING — Weekly priorities, time blocks, and action items\n\nBe practical, concise, and action-oriented. Every output should be immediately usable.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Productivity Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Work context, tasks, documents, or any productivity-related request to process"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

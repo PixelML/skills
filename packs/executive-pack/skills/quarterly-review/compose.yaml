@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: quarterly-review
+version: 1.0.0
+description: End-to-end quarterly review — summarizes performance data into an executive summary, then produces a strategic memo with forward-looking recommendations
+
+steps:
+  - id: summarize
+    skill: exec-summary
+    inputs:
+      report: "{{report}}"
+
+  - id: strategize
+    skill: strategy-memo
+    inputs:
+      topic: "Based on this executive summary, draft a strategic memo with recommendations for next quarter:\n\n{{summarize.summary}}"
+
+outputs:
+  executive_summary: "{{summarize.summary}}"
+  strategy_memo: "{{strategize.memo}}"

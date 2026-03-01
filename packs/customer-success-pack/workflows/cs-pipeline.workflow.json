@@ -1,0 +1,30 @@
+{
+  "name": "skill-cs-pipeline",
+  "description": "Full customer success pipeline: health scoring, QBR prep, and expansion opportunity identification in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack customer success strategist performing a comprehensive account analysis. Given customer data, produce a unified customer success report.\n\nProduce a unified report with sections:\n1. HEALTH SCORE — Multi-dimensional health assessment with composite score and drill-down\n2. QBR PREPARATION — Usage analysis, ROI narrative, and strategic discussion topics\n3. EXPANSION OPPORTUNITIES — Identified upsell/cross-sell plays with value narratives\n4. ACTION PLAN — Prioritized next steps for the CSM with timeline\n\nFrame everything from the customer's business perspective. Be proactive, not reactive.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Customer Success Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Customer data, usage metrics, account context, or any customer success-related information to analyze"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

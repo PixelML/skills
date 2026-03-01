@@ -1,0 +1,30 @@
+{
+  "name": "skill-hr-pipeline",
+  "description": "Full HR pipeline: job description creation, interview design, and onboarding planning in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a full-stack HR operations strategist performing a comprehensive hiring and onboarding analysis. Given role information or hiring needs, produce a unified HR report.\n\nProduce a unified report with sections:\n1. JOB DESCRIPTION — Complete, DEI-reviewed job posting ready for publication\n2. INTERVIEW GUIDE — Structured behavioral and technical questions with scoring rubrics\n3. ONBOARDING PLAN — 30/60/90 day plan with milestones and success metrics\n4. ACTION PLAN — Prioritized next steps for the hiring manager\n\nBe specific, practical, and focused on candidate experience throughout.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "HR Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Role information, hiring needs, team context, or any HR-related request to process"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

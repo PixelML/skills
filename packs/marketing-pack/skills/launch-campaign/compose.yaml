@@ -1,0 +1,26 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: launch-campaign
+version: 1.0.0
+description: End-to-end launch campaign — analyzes competitors, builds a campaign plan, then generates ad copy based on the strategy
+
+steps:
+  - id: research
+    skill: competitor-research
+    inputs:
+      competitors: "{{competitors}}"
+
+  - id: plan
+    skill: campaign-plan
+    inputs:
+      brief: "Based on this competitive analysis, create a launch campaign plan:\n\n{{research.analysis}}"
+
+  - id: ads
+    skill: ad-copy
+    inputs:
+      product_info: "Based on this campaign plan, generate ad copy for all channels:\n\n{{plan.plan}}"
+
+outputs:
+  competitive_analysis: "{{research.analysis}}"
+  campaign_plan: "{{plan.plan}}"
+  ad_copy: "{{ads.ad_copy}}"

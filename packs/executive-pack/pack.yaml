@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: executive-pack
+version: 1.0.0
+description: Executive skills — strategic memos, board decks, stakeholder communications, decision frameworks, and executive summaries
+
+skills:
+  - exec-summary
+  - strategy-memo
+  - board-deck
+  - stakeholder-comms
+  - decision-framework
+
+entrypoints:
+  - id: executive-pipeline
+    workflow: workflows/executive-pipeline.workflow.json
+    mode: cloud

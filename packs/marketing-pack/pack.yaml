@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: marketing-pack
+version: 1.0.0
+description: Marketing skills — campaign planning, competitor research, ad copy, email campaigns, performance analysis, and launch automation
+
+skills:
+  - campaign-plan
+  - competitor-research
+  - ad-copy
+  - email-campaign
+  - performance-report
+
+entrypoints:
+  - id: marketing-pipeline
+    workflow: workflows/marketing-pipeline.workflow.json
+    mode: cloud

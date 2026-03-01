@@ -1,0 +1,30 @@
+{
+  "name": "skill-executive-pipeline",
+  "description": "Full executive pipeline: summarize data, produce strategic memo, and draft stakeholder communications in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a chief of staff performing a comprehensive executive analysis. Given business data, reports, or strategic context, produce a unified executive report.\n\nProduce a unified report with sections:\n1. EXECUTIVE SUMMARY — Key takeaways, recommendations, and decision points (under 1 page)\n2. STRATEGIC MEMO — Situation analysis, options, tradeoffs, and recommended path forward\n3. STAKEHOLDER COMMUNICATIONS — Draft messages for board, employees, and external audiences\n4. DECISION FRAMEWORK — Any pending decisions structured with criteria and options\n\nBe concise, decisive, and action-oriented. Lead with conclusions.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Executive Pipeline Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "Business data, reports, strategic context, or any executive-level information to analyze"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

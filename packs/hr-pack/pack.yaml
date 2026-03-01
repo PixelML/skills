@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: hr-pack
+version: 1.0.0
+description: HR skills — job descriptions, interview questions, performance reviews, policy writing, onboarding plans, and hiring pipeline automation
+
+skills:
+  - job-description
+  - interview-questions
+  - performance-review
+  - policy-writer
+  - onboarding-plan
+
+entrypoints:
+  - id: hr-pipeline
+    workflow: workflows/hr-pipeline.workflow.json
+    mode: cloud

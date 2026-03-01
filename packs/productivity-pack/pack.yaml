@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: productivity-pack
+version: 1.0.0
+description: Productivity skills for any role — email writing, meeting prep, document summarization, structured problem solving, and weekly planning
+
+skills:
+  - email-writer
+  - meeting-prep
+  - doc-summarize
+  - problem-solve
+  - weekly-plan
+
+entrypoints:
+  - id: productivity-pipeline
+    workflow: workflows/productivity-pipeline.workflow.json
+    mode: cloud

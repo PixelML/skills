@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: hiring-pipeline
+version: 1.0.0
+description: End-to-end hiring prep — creates a job description, then generates tailored interview questions based on the role requirements
+
+steps:
+  - id: jd
+    skill: job-description
+    inputs:
+      role_info: "{{role_info}}"
+
+  - id: questions
+    skill: interview-questions
+    inputs:
+      role_context: "Based on this job description, generate a structured interview guide:\n\n{{jd.job_description}}"
+
+outputs:
+  job_description: "{{jd.job_description}}"
+  interview_guide: "{{questions.interview_guide}}"

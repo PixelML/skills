@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: meeting-cycle
+version: 1.0.0
+description: End-to-end meeting cycle — prepares meeting agenda and materials, then summarizes meeting outcomes into key points and action items
+
+steps:
+  - id: prep
+    skill: meeting-prep
+    inputs:
+      meeting_info: "{{meeting_info}}"
+
+  - id: summarize
+    skill: doc-summarize
+    inputs:
+      document: "Based on this meeting preparation and any outcomes, produce a post-meeting summary:\n\n{{prep.prep_package}}"
+
+outputs:
+  prep_package: "{{prep.prep_package}}"
+  summary: "{{summarize.summary}}"

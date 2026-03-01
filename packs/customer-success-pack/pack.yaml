@@ -1,0 +1,17 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: customer-success-pack
+version: 1.0.0
+description: Customer success skills — onboarding playbooks, QBR prep, churn analysis, health scoring, expansion plays, and renewal pipeline automation
+
+skills:
+  - cs-onboarding
+  - qbr-prep
+  - churn-analysis
+  - health-score
+  - expansion-play
+
+entrypoints:
+  - id: cs-pipeline
+    workflow: workflows/cs-pipeline.workflow.json
+    mode: cloud

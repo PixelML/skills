@@ -1,0 +1,141 @@
+apiVersion: pixelml.ai/catalog/v1
+kind: SkillCatalog
+name: agenticflow-skills
+description: Curated skill packs for AI agents — organized by role, domain, and use case
+
+roles:
+  sales:
+    pack: sales-pack
+    description: Lead qualification, pitch building, objection handling, deal analysis
+    skills: [lead-qualifier, pitch-builder, objection-handler, deal-analyzer]
+    composed: [sales-email]
+  marketing:
+    pack: marketing-pack
+    description: Campaign planning, competitor research, ad copy, email campaigns, performance analysis
+    skills: [campaign-plan, competitor-research, ad-copy, email-campaign, performance-report]
+    composed: [launch-campaign]
+  product:
+    pack: design-pack
+    description: UI/UX review, design systems, user flows, copy writing, design-to-code
+    skills: [ui-review, design-system, user-flow, copy-ux]
+    composed: [design-to-code]
+  engineering:
+    packs: [security-pack, devops-pack]
+    description: Security audits, threat modeling, CI/CD governance, incident response
+    skills:
+      security: [threat-model, security-review, code-audit, dependency-scan]
+      devops: [merge-review, deployment-gate, incident-response, changelog]
+    composed:
+      security: [pr-review]
+      devops: [release-review]
+  hr:
+    pack: hr-pack
+    description: Recruiting, interviews, performance reviews, policy writing, onboarding
+    skills: [job-description, interview-questions, performance-review, policy-writer, onboarding-plan]
+    composed: [hiring-pipeline]
+  executive:
+    pack: executive-pack
+    description: Strategic memos, board decks, stakeholder comms, decision frameworks
+    skills: [exec-summary, strategy-memo, board-deck, stakeholder-comms, decision-framework]
+    composed: [quarterly-review]
+  customer-success:
+    pack: customer-success-pack
+    description: Onboarding playbooks, QBR prep, churn prevention, health scoring, expansion
+    skills: [cs-onboarding, qbr-prep, churn-analysis, health-score, expansion-play]
+    composed: [renewal-pipeline]
+  any-role:
+    pack: productivity-pack
+    description: Email writing, meeting prep, document summarization, problem solving, weekly planning
+    skills: [email-writer, meeting-prep, doc-summarize, problem-solve, weekly-plan]
+    composed: [meeting-cycle]
+
+domains:
+  content:
+    pack: content-creator-pack
+    description: Brainstorming, summarization, post writing, general AI assistance
+    skills: [brainstorm, summarize, write-post, ask-ai]
+  research:
+    pack: research-pack
+    description: Deep research, option comparison, fact extraction, simplified explanations
+    skills: [deep-research, compare-options, fact-extract, simplify]
+  writing:
+    pack: writing-pack
+    description: Prose rewriting, technical docs, changelogs, code explanations
+    skills: [rewrite-prose, technical-docs, changelog, code-explain]
+  seo:
+    pack: seo-pack
+    description: Keyword research, site audits, content optimization, meta tag generation
+    skills: [keyword-research, seo-audit, content-optimize, meta-generator]
+    composed: [seo-strategy]
+  data:
+    pack: data-pack
+    description: Data cleaning, SQL generation, insight extraction, dashboard design
+    skills: [data-clean, sql-generate, insight-extract, dashboard-design]
+    composed: [data-pipeline]
+  legal:
+    pack: legal-pack
+    description: Contract review, compliance checking, policy drafting, risk assessment
+    skills: [contract-review, compliance-check, policy-draft, risk-assess]
+    composed: [legal-pipeline]
+  media:
+    pack: media-pack
+    description: Video scripts, storyboards, asset briefs, social captions
+    skills: [video-script, storyboard, asset-brief, social-caption]
+    composed: [content-pipeline]
+  intelligence:
+    pack: intelligence-pack
+    description: News digests, trend analysis, competitive intelligence, data briefings
+    skills: [news-digest, trend-analysis, competitive-intel, data-briefing]
+    composed: [market-report]
+
+mesh:
+  description: Skills can reference each other across packs via compose.yaml — this is what makes the ecosystem executable, not just templates
+  examples:
+    - name: pr-review (security-pack)
+      chains: code-audit → ask-ai (content-creator-pack)
+      description: Security audit that synthesizes findings via the content pack's general AI skill
+    - name: release-review (devops-pack)
+      chains: merge-review → deployment-gate
+      description: Merge analysis feeding into deployment readiness assessment
+    - name: launch-campaign (marketing-pack)
+      chains: competitor-research → campaign-plan → ad-copy
+      description: Full product launch from competitive analysis through campaign strategy to ad creative
+    - name: hiring-pipeline (hr-pack)
+      chains: job-description → interview-questions
+      description: Role definition flowing into structured interview design
+    - name: quarterly-review (executive-pack)
+      chains: exec-summary → strategy-memo
+      description: Data distillation into strategic forward-looking recommendations
+    - name: renewal-pipeline (customer-success-pack)
+      chains: health-score → qbr-prep
+      description: Customer health assessment driving QBR preparation
+    - name: meeting-cycle (productivity-pack)
+      chains: meeting-prep → doc-summarize
+      description: Meeting preparation flowing into post-meeting summarization
+    - name: sales-email (sales-pack)
+      chains: lead-qualifier → pitch-builder
+      description: Lead qualification informing personalized pitch creation
+    - name: seo-strategy (seo-pack)
+      chains: keyword-research → content-optimize
+      description: Keyword research driving content optimization strategy
+    - name: data-pipeline (data-pack)
+      chains: data-clean → insight-extract
+      description: Data preparation feeding into automated insight generation
+    - name: legal-pipeline (legal-pack)
+      chains: contract-review → risk-assess
+      description: Contract analysis flowing into risk assessment
+    - name: content-pipeline (media-pack)
+      chains: video-script → storyboard
+      description: Script creation driving visual storyboard generation
+    - name: design-to-code (design-pack)
+      chains: ui-review → code generation
+      description: Design review feeding into implementation specifications
+    - name: market-report (intelligence-pack)
+      chains: trend-analysis → competitive-intel
+      description: Trend identification driving competitive intelligence narrative
+
+totals:
+  packs: 17
+  atomic_skills: 73
+  composed_skills: 14
+  workflows: 17
