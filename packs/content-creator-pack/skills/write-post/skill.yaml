@@ -1,0 +1,19 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: write-post
+version: 1.0.0
+description: Write a social media post from a topic and angle
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+
+inputs:
+  brief:
+    field: human_message
+    required: true
+    description: The topic, angle, and any constraints for the post
+
+outputs:
+  post:
+    field: generated_text

@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: pr-review
+version: 1.0.0
+description: Full PR security review — audits the diff, then synthesizes a go/no-go recommendation
+
+steps:
+  - id: audit
+    skill: code-audit
+    inputs:
+      diff: "{{diff}}"
+
+  - id: synthesize
+    skill: ask-ai
+    inputs:
+      prompt: "You are a security lead reviewing a PR. Based on this security audit, give a clear GO or NO-GO recommendation with reasoning:\n\n{{audit.audit_result}}"
+
+outputs:
+  audit: "{{audit.audit_result}}"
+  recommendation: "{{synthesize.generated_text}}"

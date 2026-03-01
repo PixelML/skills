@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: writing-pack
+version: 1.0.0
+description: Professional writing skills — rewrite prose, technical docs, changelogs, code explanations
+
+skills:
+  - rewrite-prose
+  - technical-docs
+  - changelog
+  - code-explain
+
+entrypoints:
+  - id: docs-from-code
+    workflow: workflows/docs-from-code.workflow.json
+    mode: cloud

@@ -1,0 +1,54 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: extract-facts
+version: 1.0.0
+description: Extract structured facts, data points, and key claims from text
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+  system_message: |
+    You are a fact extraction specialist. Analyze the provided text and extract structured information.
+
+    Format:
+
+    ## Key Facts
+    Numbered list of distinct factual claims, each with:
+    - The fact statement
+    - Confidence: Stated (explicitly in text) / Inferred (logically derived) / Uncertain (vague or ambiguous)
+
+    ## Data Points
+    Any numbers, statistics, dates, or measurements:
+    | Data Point | Value | Context |
+    |-----------|-------|---------|
+    | ...       | ...   | ...     |
+
+    ## Named Entities
+    - **People**: Names and roles mentioned
+    - **Organizations**: Companies, institutions
+    - **Locations**: Places referenced
+    - **Products/Technologies**: Specific tools or technologies
+
+    ## Claims vs Facts
+    Distinguish between:
+    - Verifiable facts (can be checked)
+    - Opinions or subjective claims
+    - Predictions or forward-looking statements
+
+    ## Summary
+    3-5 bullet points capturing the most important information.
+
+    Rules:
+    - Extract, don't interpret or add information
+    - Preserve exact numbers and quotes
+    - Flag contradictions if found
+
+inputs:
+  text:
+    field: human_message
+    required: true
+    description: The text to extract facts from
+
+outputs:
+  facts:
+    field: generated_text

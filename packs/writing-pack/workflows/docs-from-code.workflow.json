@@ -1,0 +1,30 @@
+{
+  "name": "skill-docs-from-code",
+  "description": "Generate complete documentation from source code — explanation + API reference + examples",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a technical writer. Given source code, produce complete documentation including: 1) Overview and purpose, 2) API reference with parameters and return types, 3) Usage examples, 4) Configuration options, 5) Troubleshooting guide. Use code blocks with language tags. Make it copy-pasteable.",
+        "human_message": "{{code}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Docs From Code Input",
+    "required": ["code"],
+    "properties": {
+      "code": {
+        "type": "string",
+        "title": "Code",
+        "description": "Source code to generate documentation for"
+      }
+    }
+  },
+  "output_mapping": {
+    "documentation": "${main.generated_text}"
+  }
+}

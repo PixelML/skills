@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: content-creator-pack
+version: 1.0.0
+description: Content creation skills — brainstorm, summarize, write posts
+
+skills:
+  - ask-ai
+  - summarize
+  - brainstorm
+  - write-post
+
+entrypoints:
+  - id: brainstorm-to-post
+    workflow: workflows/brainstorm-to-post.workflow.json
+    mode: cloud

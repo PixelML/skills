@@ -1,0 +1,16 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: research-pack
+version: 1.0.0
+description: Research and analysis skills — deep research, option comparison, fact extraction, simplified explanations
+
+skills:
+  - deep-research
+  - compare-options
+  - extract-facts
+  - eli5
+
+entrypoints:
+  - id: research-to-recommendation
+    workflow: workflows/research-to-recommendation.workflow.json
+    mode: cloud

@@ -1,0 +1,30 @@
+{
+  "name": "skill-full-security-review",
+  "description": "Comprehensive security review: threat model + code audit + dependency scan in one pass",
+  "nodes": [
+    {
+      "name": "main",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a senior security engineer performing a comprehensive security review. Analyze the provided system description, code, and dependencies together.\n\nProduce a unified report with sections:\n1. THREAT MODEL — STRIDE-based analysis of the system\n2. CODE AUDIT — Vulnerability findings with CWE IDs\n3. DEPENDENCY ANALYSIS — Supply chain risks\n4. EXECUTIVE SUMMARY — Top 5 risks, overall risk rating, and prioritized action items\n\nBe thorough but actionable.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Full Security Review Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Input",
+        "description": "System description, code, and/or dependency files to review"
+      }
+    }
+  },
+  "output_mapping": {
+    "report": "${main.generated_text}"
+  }
+}

@@ -1,0 +1,19 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: brainstorm
+version: 1.0.0
+description: Generate content ideas for a given topic
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+
+inputs:
+  topic:
+    field: human_message
+    required: true
+    description: The topic to brainstorm content ideas for
+
+outputs:
+  ideas:
+    field: generated_text

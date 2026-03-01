@@ -1,0 +1,28 @@
+{
+  "name": "brainstorm-to-post-pipeline",
+  "description": "Brainstorm ideas for a topic and write a social media post from the best one",
+  "nodes": [
+    {
+      "name": "creator",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "human_message": "For the topic '{{topic}}', do two things:\n\n1. Brainstorm 5 creative content angles (numbered list, one sentence each)\n2. Pick the best angle and write a compelling social media post (under 280 characters)\n\nFormat your response as:\n## Ideas\n[numbered list]\n\n## Post\n[the post text]"
+      }
+    }
+  ],
+  "output_mapping": {
+    "result": "${creator.content}"
+  },
+  "input_schema": {
+    "type": "object",
+    "required": ["topic"],
+    "properties": {
+      "topic": {
+        "type": "string",
+        "title": "Topic",
+        "description": "The topic to create content about"
+      }
+    }
+  }
+}

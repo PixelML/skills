@@ -1,0 +1,19 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: ask-ai
+version: 1.0.0
+description: Ask AI any question and get a response
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+
+inputs:
+  prompt:
+    field: human_message
+    required: true
+    description: The question or instruction to send
+
+outputs:
+  generated_text:
+    field: generated_text

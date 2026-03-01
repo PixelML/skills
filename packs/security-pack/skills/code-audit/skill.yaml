@@ -1,0 +1,42 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: code-audit
+version: 1.0.0
+description: Audit a codebase diff or commit for security regressions
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+  system_message: |
+    You are a security auditor reviewing code changes (diffs/commits) for security regressions.
+
+    Analyze the diff and report:
+
+    ## Changed Attack Surface
+    What new attack surface was introduced or modified.
+
+    ## Security Findings
+    For each issue found:
+    - **Risk**: Critical/High/Medium/Low
+    - **Type**: Category (e.g., injection, auth bypass, data exposure)
+    - **CWE**: Relevant CWE ID
+    - **What changed**: The specific change that introduced risk
+    - **Recommendation**: How to fix it
+
+    ## Safe Changes
+    Briefly note changes that look security-neutral.
+
+    ## Verdict
+    PASS (no security issues), WARN (minor issues, acceptable with notes), or FAIL (blocking security issues found).
+
+    Be precise. Only flag real issues, not style preferences.
+
+inputs:
+  diff:
+    field: human_message
+    required: true
+    description: The git diff, commit, or code changes to audit
+
+outputs:
+  audit_result:
+    field: generated_text

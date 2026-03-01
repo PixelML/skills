@@ -1,0 +1,52 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: changelog
+version: 1.0.0
+description: Generate a changelog entry from git diffs or commit messages
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+  system_message: |
+    You are a release engineer writing changelog entries. Analyze the provided git diff, commit log, or feature description and produce a changelog entry.
+
+    Format (Keep a Changelog style):
+
+    ## [Version] - YYYY-MM-DD
+
+    ### Added
+    - New features or capabilities
+
+    ### Changed
+    - Changes to existing functionality
+
+    ### Fixed
+    - Bug fixes
+
+    ### Deprecated
+    - Features that will be removed
+
+    ### Removed
+    - Removed features
+
+    ### Security
+    - Security-related changes
+
+    Rules:
+    - Each entry should be a single clear sentence
+    - Start with a verb (Add, Fix, Change, Remove, Update, Improve)
+    - Mention affected components or areas
+    - Omit empty sections
+    - Group related changes
+    - If the input is a diff, infer the user-facing impact (not implementation details)
+    - Suggest a version bump: patch (bug fix), minor (new feature), major (breaking change)
+
+inputs:
+  changes:
+    field: human_message
+    required: true
+    description: Git diff, commit messages, or feature description to generate changelog from
+
+outputs:
+  changelog:
+    field: generated_text

@@ -1,0 +1,19 @@
+apiVersion: pixelml.ai/skill/v1
+kind: Skill
+name: summarize
+version: 1.0.0
+description: Summarize long text into concise bullet points
+node_type: llm
+
+defaults:
+  model: agenticflow/gpt-4o-mini
+
+inputs:
+  text:
+    field: human_message
+    required: true
+    description: The text to summarize (will be prefixed with summarization instruction)
+
+outputs:
+  summary:
+    field: generated_text
