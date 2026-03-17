@@ -1,29 +1,29 @@
 {
-  "name": "anthropic-agent-skills",
+  "name": "agent-skills",
   "owner": {
-    "name": "Keith Lazuka",
-    "email": "klazuka@anthropic.com"
+    "name": "AgenticFlow",
+    "email": "sean@agenticflow.ai"
   },
   "metadata": {
-    "description": "Anthropic example skills",
-    "version": "1.0.0"
+    "description": "Comprehensive agent skills collection with AgenticFlow integration",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "document-skills",
-      "description": "Collection of document processing suite including Excel, Word, PowerPoint, and PDF capabilities",
+      "description": "Document processing suite: Excel, Word, PowerPoint, and PDF",
       "source": "./",
       "strict": false,
       "skills": [
-        "./document-skills/xlsx",
-        "./document-skills/docx",
-        "./document-skills/pptx",
-        "./document-skills/pdf"
+        "./xlsx",
+        "./docx",
+        "./pptx",
+        "./pdf"
       ]
     },
     {
       "name": "example-skills",
-      "description": "Collection of example skills demonstrating various capabilities including skill creation, MCP building, visual design, algorithmic art, internal communications, web testing, artifact building, Slack GIFs, and theme styling",
+      "description": "Creative and utility skills: visual design, algorithmic art, internal comms, web testing, artifact building, Slack GIFs, and theme styling",
       "source": "./",
       "strict": false,
       "skills": [
@@ -38,16 +38,132 @@
         "./theme-factory",
         "./brand-guidelines"
       ]
-    }
     },
     {
       "name": "agenticflow-skills",
-      "description": "Skills powered by AgenticFlow for cloud-based AI workflows including slide deck generation and image generation",
+      "description": "Skills powered by AgenticFlow for cloud-based AI workflows, image generation, and workflow orchestration",
       "source": "./",
       "strict": false,
       "skills": [
         "./agenticflow-skills",
+        "./image-gen",
         "./slide-deck"
+      ]
+    },
+    {
+      "name": "content-skills",
+      "description": "Content generation: infographics, comics, cover images, article illustrations, and XHS image series",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./xhs-images",
+        "./article-illustrator",
+        "./cover-image",
+        "./comic",
+        "./infographic"
+      ]
+    },
+    {
+      "name": "publishing-skills",
+      "description": "Social media publishing: X/Twitter, WeChat, and Weibo",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./post-to-x",
+        "./post-to-wechat",
+        "./post-to-weibo"
+      ]
+    },
+    {
+      "name": "utility-skills",
+      "description": "Content processing: translation, image compression, URL-to-markdown, markdown formatting and conversion, and text humanization",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./translate",
+        "./compress-image",
+        "./url-to-markdown",
+        "./format-markdown",
+        "./markdown-to-html",
+        "./danger-x-to-markdown",
+        "./danger-gemini-web",
+        "./humanizer"
+      ]
+    },
+    {
+      "name": "security-skills",
+      "description": "Security analysis: threat modeling, best practices review, and ownership mapping",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./security-best-practices",
+        "./security-ownership-map",
+        "./security-threat-model"
+      ]
+    },
+    {
+      "name": "github-skills",
+      "description": "GitHub workflow: address PR comments, fix CI, and quick commit-push-PR flow",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./gh-address-comments",
+        "./gh-fix-ci",
+        "./yeet"
+      ]
+    },
+    {
+      "name": "media-skills",
+      "description": "Media generation: video (Sora), text-to-speech, audio transcription, and screenshots",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./sora",
+        "./speech",
+        "./transcribe",
+        "./screenshot"
+      ]
+    },
+    {
+      "name": "deploy-skills",
+      "description": "Deployment to cloud platforms: Cloudflare, Vercel, Netlify, and Render",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./cloudflare-deploy",
+        "./vercel-deploy",
+        "./netlify-deploy",
+        "./render-deploy"
+      ]
+    },
+    {
+      "name": "notion-skills",
+      "description": "Notion integration: knowledge capture, meeting intelligence, research documentation, and spec-to-implementation",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./notion-knowledge-capture",
+        "./notion-meeting-intelligence",
+        "./notion-research-documentation",
+        "./notion-spec-to-implementation"
+      ]
+    },
+    {
+      "name": "dev-skills",
+      "description": "Development tools: Jupyter notebooks, Sentry monitoring, Linear project management, web game development, ASP.NET Core, WinUI, Figma design-to-code, ChatGPT Apps, and OpenAI docs",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./jupyter-notebook",
+        "./sentry",
+        "./linear",
+        "./develop-web-game",
+        "./aspnet-core",
+        "./winui-app",
+        "./chatgpt-apps",
+        "./openai-docs",
+        "./figma",
+        "./figma-implement-design"
       ]
     }
   ]
