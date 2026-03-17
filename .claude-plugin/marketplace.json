@@ -39,5 +39,16 @@
         "./brand-guidelines"
       ]
     }
+    },
+    {
+      "name": "agenticflow-skills",
+      "description": "Skills powered by AgenticFlow for cloud-based AI workflows including slide deck generation and image generation",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./agenticflow-skills",
+        "./slide-deck"
+      ]
+    }
   ]
 }

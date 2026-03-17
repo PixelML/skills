@@ -22,7 +22,7 @@ Check the `connection` field in the node_type schema:
 | `connection_category` | The provider category (e.g., `openai`, `claude`) |
 | `required` | Whether a connection is mandatory |
 
-Use `agenticflow_get_node_type_details(name="node_type_name")` to see the connection requirements.
+Use `agenticflow node-types get --name "node_type_name"` to see the connection requirements.
 
 ---
 
@@ -82,12 +82,14 @@ Or set to `null`:
 
 ## Managing Connections
 
-Use MCP tools to manage connections:
+Use the CLI to manage connections:
 
-```
+```bash
 # List available connections
-agenticflow_list_app_connections
+agenticflow connections list
 
+# Filter by category
+agenticflow connections categories
 ```
 
 ---

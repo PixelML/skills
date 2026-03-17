@@ -4,25 +4,25 @@ A **NodeType** defines a reusable action template that can be added to workflows
 
 ## Discovering Node Types
 
-Use the **agenticflow-mcp** tools to discover and inspect node types:
+Use the `agenticflow` CLI to discover and inspect node types:
 
-| MCP Tool | Description |
-|----------|-------------|
-| `agenticflow_list_node_types` | List all available node types |
-| `agenticflow_get_node_type_details` | Get full details of a specific node type |
-| `agenticflow_search_node_types` | Search node types by keyword |
+| CLI Command | Description |
+|-------------|-------------|
+| `agenticflow node-types list` | List all available node types |
+| `agenticflow node-types get --name <name>` | Get full details of a specific node type |
+| `agenticflow node-types search --query <q>` | Search node types by keyword |
 
 ### Example Usage
 
-```
+```bash
 # List all node types
-agenticflow_list_node_types()
+agenticflow node-types list
 
 # Get details for a specific node type
-agenticflow_get_node_type_details(name="openai_ask_assistant")
+agenticflow node-types get --name "openai_ask_assistant"
 
 # Search for image-related nodes
-agenticflow_search_node_types(query="image generation")
+agenticflow node-types search --query "image generation"
 ```
 
 ---

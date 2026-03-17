@@ -2,16 +2,31 @@
 name: agenticflow-skills
 description: Comprehensive guide for building AI workflows, agents, and workforce systems with AgenticFlow. Use when designing workflows with various node types, configuring single agents, or orchestrating workforce collaboration patterns.
 license: MIT
+allowed-tools:
+  - Bash(agenticflow *)
 ---
 
 # AgenticFlow Skills
 
 AgenticFlow is a platform for building AI-powered automation workflows, intelligent agents, and workforce systems.
 
+## Prerequisites
+
+The `agenticflow` CLI must be installed and authenticated:
+
+```bash
+# Check CLI is ready
+agenticflow doctor --json
+
+# Login if needed
+agenticflow login
+```
+
 ## Quick Navigation
 
 | Topic | When to Use | Reference |
 |-------|-------------|-----------|
+| **CLI Reference** | Running agenticflow commands | [reference/cli-reference.md](./reference/cli-reference.md) |
 | **Workflow** | Building automation flows with nodes | [workflow/overview.md](./reference/workflow/overview.md) |
 | **Agent** | Creating single intelligent agents | [reference/agent/overview.md](./reference/agent/overview.md) |
 | **Workforce** | Orchestrating multiple agents | [reference/workforce/overview.md](./reference/workforce/overview.md) |

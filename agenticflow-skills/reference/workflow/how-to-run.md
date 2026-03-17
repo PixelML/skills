@@ -3,8 +3,8 @@
 Guide to executing workflows and handling results in AgenticFlow.
 
 > **Important**: Workflow execution is always a **2-step process**:
-> 1. Start execution with `agenticflow_execute_workflow`
-> 2. Poll status with `agenticflow_get_workflow_run`
+> 1. Start execution with `agenticflow workflow run`
+> 2. Poll status with `agenticflow workflow run-status`
 
 ---
 
@@ -12,14 +12,16 @@ Guide to executing workflows and handling results in AgenticFlow.
 
 Start workflow execution:
 
-```
-agenticflow_execute_workflow(
-  workflow_id="workflow-uuid",
-  input={
-    "topic": "AI automation",
-    "image_to_url": "https://example.com/image.png"
-  }
-)
+```bash
+# Create input.json with your workflow inputs
+cat > input.json << 'EOF'
+{
+  "topic": "AI automation",
+  "image_to_url": "https://example.com/image.png"
+}
+EOF
+
+agenticflow workflow run --workflow-id "workflow-uuid" --input @input.json
 ```
 
 ---
@@ -74,8 +76,8 @@ A successful run returns:
 
 **Always** poll for status after starting execution:
 
-```
-agenticflow_get_workflow_run(workflow_run_id="workflow-run-id")
+```bash
+agenticflow workflow run-status --workflow-run-id "workflow-run-id"
 ```
 
 > **Note**: Keep polling until `status` is `success` or `failed`.

@@ -40,17 +40,17 @@ What data does your workflow need from users?
 
 ## Step 2: Find Node Types
 
-Use MCP tools to discover available nodes:
+Use the `agenticflow` CLI to discover available nodes:
 
-```
+```bash
 # List all available node types
-agenticflow_list_node_types()
+agenticflow node-types list
 
 # Search for what you need
-agenticflow_search_node_types(query="image generation")
+agenticflow node-types search --query "image generation"
 
 # Get full details
-agenticflow_get_node_type_details(name="generate_image")
+agenticflow node-types get --name "generate_image"
 ```
 
 The response includes `input_schema` showing required fields.
@@ -84,12 +84,9 @@ Some node fields require fetching options dynamically from the API. These are id
 
 **Fetch options using:**
 
-```
-agenticflow_get_dynamic_options(
-  node_type_name="claude_ask",
-  field_name="model",
-  connection_id=null  # or valid UUID if node requires connection
-)
+```bash
+agenticflow node-types dynamic-options --name "claude_ask" --field-name "model"
+# Add --connection-id <uuid> if node requires connection
 ```
 
 **Connection ID rules:**
@@ -180,32 +177,27 @@ What should the workflow return?
 
 ---
 
-## Step 6: Create or Update via MCP Tool
+## Step 6: Create or Update via CLI
 
-Use AgenticFlow MCP tools to create or update workflows:
+Use the `agenticflow` CLI to create or update workflows:
 
 ### Create New Workflow
 
-```
-agenticflow_create_workflow(
-  name="My Workflow",
-  description="Does something useful",
-  input_schema={...},
-  nodes={...},
-  output_mapping={}
-)
+```bash
+# Save workflow definition to a JSON file first
+agenticflow workflow create --body @workflow.json
 ```
 
 ### Update Existing Workflow
 
+```bash
+agenticflow workflow update --workflow-id "workflow-uuid" --body @workflow.json
 ```
-agenticflow_update_workflow(
-  workflow_id="workflow-uuid",
-  name="Updated Name",
-  input_schema={...},
-  nodes={...},
-  output_mapping={}
-)
+
+### Validate Before Saving
+
+```bash
+agenticflow workflow validate --body @workflow.json
 ```
 
 ### View in Web UI
@@ -221,7 +213,7 @@ https://agenticflow.ai/app/workspaces/{workspace_id}/workflows/{workflow_id}/bui
 ## Quick Checklist
 
 - [ ] Input schema defined with required fields
-- [ ] Node types discovered via MCP tools
+- [ ] Node types discovered via `agenticflow node-types` CLI
 - [ ] Dynamic options fetched for dropdown fields (`options: null`)
 - [ ] Nodes ordered correctly (dependencies first)
 - [ ] Connections specified for nodes that need them
