@@ -194,7 +194,7 @@ Input → AF Setup → Preferences → Analyze → [Check Existing?] → Confirm
 
 ### Step 0: AgenticFlow Image Generation Setup
 
-Before generating images, ensure an AgenticFlow image generation workflow exists.
+Before generating images, ensure an AgenticFlow image generation workflow exists. This step is **dynamic per user** — never hardcode workflow IDs.
 
 **0.1 Check CLI readiness**:
 ```bash
@@ -202,16 +202,45 @@ agenticflow doctor --json
 ```
 If not authenticated, run `agenticflow login` first.
 
-**0.2 Find or create image generation workflow**:
+**0.2 Check EXTEND.md for saved workflow ID**:
+
+If EXTEND.md has `agenticflow.workflow_id`, verify it still exists:
+```bash
+agenticflow workflow get --workflow-id <saved_id> --json
+```
+If valid → use it, skip to Step 1. If 404/error → continue to 0.3.
+
+**0.3 Search for existing image generation workflow**:
 
 ```bash
-# List existing workflows and look for one with generate_image node
 agenticflow workflow list --json
 ```
 
-Search the output for a workflow whose `nodes` contain `node_type_name: "generate_image"`. If found, store its `workflow_id`.
+Parse the JSON output. Look for any workflow whose `nodes` array contains a node with `node_type_name` equal to `"generate_image"` or `"agenticflow_generate_image"`. If found, store its `id` as the `workflow_id` and skip to Step 1.
 
-**If no image generation workflow exists**, create one:
+**0.4 No existing workflow → Create one**:
+
+First, decide which node type to use based on the user's connections:
+
+```bash
+agenticflow connections list --json
+```
+
+| User has `pixelml` connection? | Node type to use | Connection needed? |
+|-------------------------------|-----------------|-------------------|
+| **Yes** | `generate_image` (provider: "Nano Banana 2") | Yes — set `"connection": "{{__app_connections__['<pixelml_connection_id>']}}"` |
+| **No** | `agenticflow_generate_image` (Powered by AgenticFlow) | No — set `"connection": null` |
+
+**Node type comparison**:
+
+| | `generate_image` | `agenticflow_generate_image` |
+|---|---|---|
+| Connection | Requires `pixelml` | None required |
+| Providers | Nano Banana 2, Runware, etc. | AgenticFlow built-in |
+| Required fields | `prompt`, `negative_prompt`, `aspect_ratio` | `prompt`, `aspect_ratio` |
+| Optional fields | `provider`, `model_id`, `lora` | `model`, `negative_prompt`, `format` |
+
+**Create workflow — Option A: With PixelML connection** (higher quality, more providers):
 
 ```bash
 cat > /tmp/af-slide-imagegen.json << 'WFEOF'
@@ -252,6 +281,57 @@ cat > /tmp/af-slide-imagegen.json << 'WFEOF'
           "lora": null
         },
         "output_mapping": null,
+        "connection": "{{__app_connections__['<PIXELML_CONNECTION_ID>']}}"
+      }
+    ]
+  },
+  "output_mapping": {}
+}
+WFEOF
+```
+
+Replace `<PIXELML_CONNECTION_ID>` with the actual `id` from `agenticflow connections list` where `category == "pixelml"`.
+
+**Create workflow — Option B: Without connection** (works for any user):
+
+```bash
+cat > /tmp/af-slide-imagegen.json << 'WFEOF'
+{
+  "name": "Slide Deck Image Generator",
+  "description": "Generates slide images from text prompts. Used by the slide-deck skill.",
+  "input_schema": {
+    "type": "object",
+    "title": "User inputs",
+    "required": ["prompt"],
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "title": "Image Prompt",
+        "description": "Detailed prompt for slide image generation",
+        "ui_metadata": {
+          "type": "long_text",
+          "order": 0,
+          "value": "",
+          "placeholder": "Describe the slide image..."
+        }
+      }
+    }
+  },
+  "nodes": {
+    "nodes": [
+      {
+        "name": "generate_image",
+        "title": "Generate Slide Image",
+        "description": "Generate a slide image from prompt (AgenticFlow built-in)",
+        "node_type_name": "agenticflow_generate_image",
+        "input_config": {
+          "prompt": "{{prompt}}",
+          "aspect_ratio": "16:9",
+          "negative_prompt": "NSFW, blurry, low quality, watermark, text artifacts",
+          "model": null,
+          "format": null
+        },
+        "output_mapping": null,
         "connection": null
       }
     ]
@@ -259,24 +339,20 @@ cat > /tmp/af-slide-imagegen.json << 'WFEOF'
   "output_mapping": {}
 }
 WFEOF
+```
 
+**Then create**:
+```bash
 agenticflow workflow create --body @/tmp/af-slide-imagegen.json --json
 ```
 
-**Store the returned `workflow_id`** — it will be used in Step 7.
+**Store the returned `id`** as the `workflow_id`. Optionally save it to EXTEND.md for future sessions:
+```yaml
+agenticflow:
+  workflow_id: "<returned_workflow_id>"
+```
 
-> **Note**: The workflow needs a valid `connection` for the `generate_image` node before it can run.
-> If the workflow run fails with a connection error, check available connections:
-> ```bash
-> agenticflow connections list --json
-> ```
-> Then update the workflow node's connection field:
-> ```bash
-> # Edit the workflow JSON to add connection, then:
-> agenticflow workflow update --workflow-id <id> --body @/tmp/af-slide-imagegen.json --json
-> ```
-
-**0.3 Test the workflow** (optional but recommended on first use):
+**0.5 Test the workflow** (recommended on first use):
 
 ```bash
 cat > /tmp/af-test-input.json << 'EOF'
