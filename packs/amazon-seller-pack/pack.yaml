@@ -1,0 +1,20 @@
+apiVersion: pixelml.ai/pack/v1
+kind: Pack
+name: amazon-seller-pack
+version: 1.0.0
+description: AI skills for Amazon Singapore sellers — listing optimization, keyword research, review analysis, PPC campaigns, competitor monitoring, and customer support automation
+
+skills:
+  - listing-optimizer
+  - keyword-researcher
+  - review-analyzer
+  - ppc-campaign-planner
+  - competitor-monitor
+  - pricing-strategist
+  - customer-response
+  - product-launcher
+
+entrypoints:
+  - id: full-product-launch
+    workflow: workflows/product-launch.workflow.json
+    mode: cloud

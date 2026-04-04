@@ -1,0 +1,30 @@
+{
+  "name": "skill-amazon-product-launch",
+  "description": "Full Amazon product launch pipeline: keyword research → listing optimization → pricing strategy → PPC campaign plan",
+  "nodes": [
+    {
+      "name": "launch-planner",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a senior Amazon launch strategist for the Singapore marketplace. Given a product, produce a comprehensive launch plan covering:\n\n1. KEYWORD RESEARCH — Primary keywords, long-tail keywords, multilingual keywords (English, Mandarin, Malay)\n2. LISTING OPTIMIZATION — Title, 5 bullet points, description, backend search terms, A+ content suggestions\n3. PRICING STRATEGY — Cost breakdown, recommended price, launch pricing, promotional calendar for SG events\n4. PPC CAMPAIGN — Campaign structure (SP Auto, SP Manual, SB, SD), keyword bids, budget allocation, optimization schedule\n5. LAUNCH TIMELINE — Day-by-day plan for first 30 days\n\nBe specific with SGD amounts, Singapore market trends, and actionable recommendations. Use tables and structured formats.",
+        "human_message": "{{input}}"
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Product Launch Input",
+    "required": ["input"],
+    "properties": {
+      "input": {
+        "type": "string",
+        "title": "Product Info",
+        "description": "Product name, category, features, target audience, costs, budget, and any competitor information"
+      }
+    }
+  },
+  "output_mapping": {
+    "launch_plan": "${launch-planner.generated_text}"
+  }
+}

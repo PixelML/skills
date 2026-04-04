@@ -1,0 +1,32 @@
+apiVersion: pixelml.ai/skill/v1
+kind: ComposedSkill
+name: product-launcher
+version: 1.0.0
+description: End-to-end Amazon product launch — keyword research, listing optimization, pricing strategy, and PPC campaign plan in one workflow
+
+steps:
+  - id: keywords
+    skill: keyword-researcher
+    inputs:
+      product_niche: "{{product_info}}"
+
+  - id: listing
+    skill: listing-optimizer
+    inputs:
+      product_info: "Product info: {{product_info}}\n\nKeyword research to incorporate:\n{{keywords.keyword_report}}"
+
+  - id: pricing
+    skill: pricing-strategist
+    inputs:
+      product_costs: "Product: {{product_info}}\n\nUse these keywords for PPC cost estimation:\n{{keywords.keyword_report}}"
+
+  - id: ppc
+    skill: ppc-campaign-planner
+    inputs:
+      product_and_budget: "Product: {{product_info}}\n\nTarget keywords:\n{{keywords.keyword_report}}\n\nPricing strategy:\n{{pricing.pricing_strategy}}"
+
+outputs:
+  keyword_research: "{{keywords.keyword_report}}"
+  optimized_listing: "{{listing.optimized_listing}}"
+  pricing_strategy: "{{pricing.pricing_strategy}}"
+  ppc_campaign: "{{ppc.campaign_plan}}"
