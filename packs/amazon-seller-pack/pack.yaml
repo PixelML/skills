@@ -1,8 +1,10 @@
 apiVersion: pixelml.ai/pack/v1
 kind: Pack
 name: amazon-seller-pack
-version: 2.0.0
-description: AI skills + data-powered workflows for Amazon Singapore sellers — listing audit with real scraping, competitor analysis from live data, review sentiment from actual reviews, PPC campaigns, and customer support
+version: 3.0.0
+description: Complete Amazon Singapore seller pack — 8 skills, 4 workflows, 5-agent Gemma 4 company blueprint. Deploy to Paperclip with one command.
+
+model: agenticflow/gemma-4-31b-it
 
 skills:
   - listing-optimizer
@@ -30,3 +32,5 @@ entrypoints:
     workflow: workflows/review-scrape-respond.workflow.json
     mode: cloud
     description: Scrape reviews, analyze sentiment, and draft responses to negative reviews
+
+company: company.yaml

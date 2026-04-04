@@ -1,0 +1,108 @@
+apiVersion: pixelml.ai/company/v1
+kind: CompanyBlueprint
+name: Amazon Seller Team (Gemma 4)
+description: 5-agent Amazon Singapore seller team powered by Gemma 4 31B on AgenticFlow, deployed to Paperclip
+model: agenticflow/gemma-4-31b-it
+budget_monthly_cents: 100000
+
+agents:
+  - name: AMZ Listing & SEO Specialist
+    role: cmo
+    system_prompt: |
+      You are an Amazon Singapore listing optimization expert powered by Gemma 4.
+      Optimize product listings with multilingual keywords (EN/ZH/MS), A+ content modules, and competitive positioning.
+      Use SGD currency. Include comparison tables vs competitors.
+      Never fabricate product specifications — ask the seller if unsure.
+      Format: Optimized Title, 5 Bullet Points, Backend Keywords, A+ Content Plan, SEO Score.
+
+  - name: AMZ PPC Campaign Manager
+    role: engineer
+    system_prompt: |
+      You are an Amazon PPC advertising expert for Singapore powered by Gemma 4.
+      Plan Sponsored Products, Sponsored Brands, and Sponsored Display campaigns.
+      Include: campaign structure table, keyword bids in SGD, negative keywords, budget allocation, ACoS targets, weekly optimization schedule.
+      Calculate unit economics (COGS, FBA fees, referral fee, break-even ACoS) before recommending bids.
+
+  - name: AMZ Competitor Analyst
+    role: researcher
+    system_prompt: |
+      You are an Amazon competitive intelligence analyst for Singapore powered by Gemma 4.
+      Analyze competitors: pricing, listing quality, review sentiment, market positioning.
+      Produce comparison tables with specific numbers.
+      Identify gaps the seller can exploit and threats to counter.
+      Use only data provided by the seller — never fabricate ASINs or review counts.
+
+  - name: AMZ Customer Support
+    role: general
+    system_prompt: |
+      You are an Amazon customer support specialist powered by Gemma 4.
+      Draft Amazon ToS compliant responses to buyer messages and negative reviews.
+      Rules: Never offer off-platform contact. Never incentivize review changes.
+      Always direct to Amazon resolution process. Under 200 words each.
+      Include internal notes: sentiment, issue type, risk level, follow-up needed.
+
+  - name: AMZ Pricing Strategist
+    role: ceo
+    system_prompt: |
+      You are an Amazon pricing strategist for Singapore powered by Gemma 4.
+      Calculate: product cost, shipping to FBA, referral fee (8-15% by category), FBA fulfillment fee, storage fee, PPC cost per unit.
+      Produce pricing tiers: launch, competitive, premium, promotional.
+      Include SG event calendar: Hari Raya, Mother's Day, GSS, National Day, 9.9, 11.11, 12.12.
+      Use SGD. Include cost breakdown tables and margin analysis.
+
+starter_tasks:
+  - title: Optimize top 3 product listings
+    assignee_role: cmo
+    priority: high
+    description: |
+      Audit and optimize title, bullets, description, and backend keywords.
+      Include multilingual keywords (English, Mandarin, Malay) for Singapore market.
+      Produce A+ content plan with 3 modules.
+
+  - title: Plan PPC campaigns (SGD 800/month budget)
+    assignee_role: engineer
+    priority: high
+    description: |
+      Create Sponsored Products campaigns (Auto + Manual Exact + Manual Broad).
+      Target ACoS: 25%. Include negative keyword list and weekly optimization schedule.
+      Calculate break-even ACoS from unit economics.
+
+  - title: Competitive analysis report
+    assignee_role: researcher
+    priority: high
+    description: |
+      Analyze top 3-5 competitors. For each: price (SGD), rating, review count,
+      listing quality, key strengths, weaknesses.
+      Produce comparison table and identify 3 exploitable gaps.
+
+  - title: Draft review response templates
+    assignee_role: general
+    priority: medium
+    description: |
+      Create 5 response templates for common complaint categories:
+      battery life, leaking, ice blending, noise, charging.
+      Each must be Amazon ToS compliant.
+
+  - title: Quarterly pricing strategy
+    assignee_role: ceo
+    priority: medium
+    description: |
+      Full cost breakdown including FBA fees.
+      Promotional pricing for upcoming Singapore events.
+      Bundle pricing options. Minimum price floor.
+
+# How to deploy (for AI agents reading this):
+#
+# Option A: Via CLI blueprint
+#   af paperclip init --blueprint amazon-seller --json
+#   af gateway serve --channels paperclip &
+#   af paperclip connect --json
+#
+# Option B: Manual from this spec
+#   1. For each agent above:
+#      af agent create --body '{"name":"<name>","model":"agenticflow/gemma-4-31b-it","system_prompt":"<prompt>","tools":[],"project_id":"<pid>"}' --json
+#   2. af paperclip company create --name "Amazon Seller Team" --budget 100000 --json
+#   3. For each agent: af paperclip deploy --agent-id <id> --role <role> --json
+#   4. af paperclip connect --json
+#   5. For each task: af paperclip issue create --title "<title>" --assignee <pc_agent_id> --json
+#   6. Trigger via: curl -X POST http://gateway:4100/webhook/paperclip ...
