@@ -1,8 +1,8 @@
 apiVersion: pixelml.ai/pack/v1
 kind: Pack
 name: amazon-seller-pack
-version: 1.0.0
-description: AI skills for Amazon Singapore sellers — listing optimization, keyword research, review analysis, PPC campaigns, competitor monitoring, and customer support automation
+version: 2.0.0
+description: AI skills + data-powered workflows for Amazon Singapore sellers — listing audit with real scraping, competitor analysis from live data, review sentiment from actual reviews, PPC campaigns, and customer support
 
 skills:
   - listing-optimizer
@@ -18,3 +18,15 @@ entrypoints:
   - id: full-product-launch
     workflow: workflows/product-launch.workflow.json
     mode: cloud
+  - id: competitor-scrape
+    workflow: workflows/competitor-scrape.workflow.json
+    mode: cloud
+    description: Scrape competitor Amazon listings and produce AI analysis with real data
+  - id: listing-audit
+    workflow: workflows/listing-audit.workflow.json
+    mode: cloud
+    description: Scrape your own listing, audit it, and generate optimized replacements
+  - id: review-scrape-respond
+    workflow: workflows/review-scrape-respond.workflow.json
+    mode: cloud
+    description: Scrape reviews, analyze sentiment, and draft responses to negative reviews

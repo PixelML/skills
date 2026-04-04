@@ -1,0 +1,45 @@
+{
+  "name": "skill-amazon-review-scrape-respond",
+  "description": "Scrape your Amazon product reviews page, analyze sentiment, and draft responses to negative reviews. Real data, real responses.",
+  "nodes": [
+    {
+      "name": "scrape-reviews",
+      "node_type_name": "web_scraping",
+      "input_config": {
+        "web_url": "{{reviews_url}}",
+        "scraping_type": "text",
+        "max_tokens": 8000
+      }
+    },
+    {
+      "name": "analyze-and-respond",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are a customer experience specialist for Amazon Singapore sellers. You will receive REAL scraped review data from an Amazon product page.\n\nProduce TWO sections:\n\n## SECTION 1: Review Analysis\n- Overall sentiment: X/5\n- Top praised features (with actual quotes)\n- Top complaints (with actual quotes)\n- Trend: Improving/Stable/Declining\n- Key insight the seller should act on\n\n## SECTION 2: Draft Responses\nFor each negative review (1-3 stars) found in the data, draft a response that:\n- Acknowledges the specific issue they mentioned (reference their actual words)\n- Offers practical troubleshooting\n- Directs to Amazon resolution process\n- Is under 200 words\n- Complies with Amazon ToS (no off-platform contact, no review incentives)\n\nIf no negative reviews are found in the scraped data, note that and suggest proactive Q&A entries instead.",
+        "human_message": "Product: {{product_name}}\n\nScraped review page content:\n${scrape-reviews.scraped_content}\n\nAnalyze these reviews and draft responses to any negative ones."
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Review Analysis Input",
+    "required": ["reviews_url", "product_name"],
+    "properties": {
+      "reviews_url": {
+        "type": "string",
+        "title": "Reviews Page URL",
+        "description": "Amazon product reviews URL (e.g. https://www.amazon.sg/product-reviews/B0XXXXXXXX)"
+      },
+      "product_name": {
+        "type": "string",
+        "title": "Product Name",
+        "description": "Your product name for context"
+      }
+    }
+  },
+  "output_mapping": {
+    "analysis_and_responses": "${analyze-and-respond.generated_text}",
+    "raw_reviews": "${scrape-reviews.scraped_content}"
+  }
+}

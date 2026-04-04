@@ -1,0 +1,45 @@
+{
+  "name": "skill-amazon-listing-audit",
+  "description": "Scrape your own Amazon listing, then analyze and optimize it with AI. Uses real listing data, not guesswork.",
+  "nodes": [
+    {
+      "name": "scrape-listing",
+      "node_type_name": "web_scraping",
+      "input_config": {
+        "web_url": "{{listing_url}}",
+        "scraping_type": "text",
+        "max_tokens": 6000
+      }
+    },
+    {
+      "name": "audit",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are an Amazon listing optimization expert for the Singapore marketplace. You will receive the actual scraped content of an Amazon listing. Audit it and produce specific, actionable improvements.\n\nFormat:\n## Current Listing Audit\n| Element | Current | Score (1-10) | Issue |\n\n## Optimized Title\n[Rewritten title with keywords]\n\n## Optimized Bullets (5)\n[Rewritten bullets]\n\n## Backend Keywords\n[Include Mandarin + Malay translations for SG]\n\n## Priority Actions\n1. [Most impactful change]\n2. [Second]\n3. [Third]\n\nBe specific — reference the actual current listing content in your audit.",
+        "human_message": "Product context from seller: {{product_context}}\n\nActual listing scraped from Amazon:\n${scrape-listing.scraped_content}\n\nAudit this listing and provide optimized replacements."
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Listing Audit Input",
+    "required": ["listing_url"],
+    "properties": {
+      "listing_url": {
+        "type": "string",
+        "title": "Amazon Listing URL",
+        "description": "Your Amazon product listing URL (e.g. https://www.amazon.sg/dp/B0XXXXXXXX)"
+      },
+      "product_context": {
+        "type": "string",
+        "title": "Product Context",
+        "description": "Additional info: actual specs, target audience, key selling points, known issues"
+      }
+    }
+  },
+  "output_mapping": {
+    "audit_report": "${audit.generated_text}",
+    "current_listing": "${scrape-listing.scraped_content}"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "name": "skill-amazon-competitor-scrape",
+  "description": "Scrape Amazon competitor listings and analyze them with AI. Uses web_scraping node to get real data, then LLM to analyze.",
+  "nodes": [
+    {
+      "name": "scrape-competitor-1",
+      "node_type_name": "web_scraping",
+      "input_config": {
+        "web_url": "{{competitor_url_1}}",
+        "scraping_type": "text",
+        "max_tokens": 4000
+      }
+    },
+    {
+      "name": "scrape-competitor-2",
+      "node_type_name": "web_scraping",
+      "input_config": {
+        "web_url": "{{competitor_url_2}}",
+        "scraping_type": "text",
+        "max_tokens": 4000
+      }
+    },
+    {
+      "name": "scrape-competitor-3",
+      "node_type_name": "web_scraping",
+      "input_config": {
+        "web_url": "{{competitor_url_3}}",
+        "scraping_type": "text",
+        "max_tokens": 4000
+      }
+    },
+    {
+      "name": "analyze",
+      "node_type_name": "llm",
+      "input_config": {
+        "model": "agenticflow/gpt-4o-mini",
+        "system_message": "You are an Amazon competitive intelligence analyst for Singapore sellers. Analyze the scraped competitor listing data and produce a structured comparison report with: pricing, features, review highlights, listing quality scores, and competitive gaps.",
+        "human_message": "My product: {{my_product}}\n\nCompetitor 1 listing data:\n${scrape-competitor-1.scraped_content}\n\nCompetitor 2 listing data:\n${scrape-competitor-2.scraped_content}\n\nCompetitor 3 listing data:\n${scrape-competitor-3.scraped_content}\n\nProduce a detailed competitive analysis with comparison tables."
+      }
+    }
+  ],
+  "input_schema": {
+    "type": "object",
+    "title": "Competitor Analysis Input",
+    "required": ["my_product", "competitor_url_1"],
+    "properties": {
+      "my_product": {
+        "type": "string",
+        "title": "Your Product",
+        "description": "Your product name, price, key features"
+      },
+      "competitor_url_1": {
+        "type": "string",
+        "title": "Competitor 1 URL",
+        "description": "Amazon listing URL for competitor 1"
+      },
+      "competitor_url_2": {
+        "type": "string",
+        "title": "Competitor 2 URL",
+        "description": "Amazon listing URL for competitor 2 (optional)"
+      },
+      "competitor_url_3": {
+        "type": "string",
+        "title": "Competitor 3 URL",
+        "description": "Amazon listing URL for competitor 3 (optional)"
+      }
+    }
+  },
+  "output_mapping": {
+    "analysis": "${analyze.generated_text}",
+    "competitor_1_raw": "${scrape-competitor-1.scraped_content}",
+    "competitor_2_raw": "${scrape-competitor-2.scraped_content}",
+    "competitor_3_raw": "${scrape-competitor-3.scraped_content}"
+  }
+}
